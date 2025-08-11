@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ufpi.banco_dados.projeto.gerenciador.dto.RankingUsuarioDTO;
 import br.edu.ufpi.banco_dados.projeto.gerenciador.service.UsuarioService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import br.edu.ufpi.banco_dados.projeto.gerenciador.model.Usuario;
+
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -22,5 +26,12 @@ public class UsuarioController {
     public ResponseEntity<List<RankingUsuarioDTO>> getRanking() {
         return ResponseEntity.ok(usuarioService.listarRanking());
     }
+    @PostMapping
+    public ResponseEntity<String> criarUsuario(@RequestBody Usuario usuario) {
+        usuarioService.criarUsuario(usuario);
+        return ResponseEntity.ok("Usuário criado com sucesso");
+        
+    }
+    
 }
 

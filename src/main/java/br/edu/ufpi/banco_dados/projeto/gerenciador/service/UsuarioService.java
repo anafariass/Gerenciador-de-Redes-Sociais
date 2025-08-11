@@ -1,5 +1,7 @@
 package br.edu.ufpi.banco_dados.projeto.gerenciador.service;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,13 @@ public class UsuarioService {
                 rs.getInt("total_comentarios"),
                 rs.getInt("total_curtidas")
             ));
+    }
+
+    public void criarUsuario(br.edu.ufpi.banco_dados.projeto.gerenciador.model.Usuario usuario) {
+        String sql = "INSERT INTO usuarios (nome, email, data_cadastro) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, usuario.getNome(), usuario.getEmail(), usuario.getDataCadastro());
+        usuario.setDataCadastro(OffsetDateTime.now(ZoneOffset.of("-03:00")));
+        
     }
 }
 
