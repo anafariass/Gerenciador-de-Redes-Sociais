@@ -24,22 +24,19 @@ public class MenuPrompt implements CommandLineRunner {
                     System.out.println("\n==== Gerenciador de Redes Sociais ====");
                     System.out.println("1. Cadastrar usuário");
                     System.out.println("2. Listar usuários");
-                    System.out.println("3. Atualizar usuário");
-                    System.out.println("4. Excluir usuário");
-                    System.out.println("5. Criar postagem");
-                    System.out.println("6. Atualizar postagem");
-                    System.out.println("7. Excluir postagem");
-                    System.out.println("8. Listar postagens de um usuário");
-                    System.out.println("9. Criar comentário");
-                    System.out.println("10. Listar comentários de uma postagem");
-                    System.out.println("11. Curtir postagem");
-                    System.out.println("12. Descurtir postagem");
-                    System.out.println("13. Contar postagens por usuário");
-                    System.out.println("14. Contar comentários por usuário");
-                    System.out.println("15. Média de curtidas por postagem");
-                    System.out.println("16. Total de curtidas por usuário");
-                    System.out.println("17. Listar ranking de usuários");
-                    System.out.println("18. Sair");
+                    System.out.println("3. Excluir usuário");
+                    System.out.println("4. Criar postagem");
+                    System.out.println("5. Atualizar postagem");
+                    System.out.println("6. Listar postagens de um usuário");
+                    System.out.println("7. Criar comentário");
+                    System.out.println("8. Listar comentários de uma postagem");
+                    System.out.println("9. Curtir postagem");
+                    System.out.println("10. Descurtir postagem");
+                    System.out.println("11. Contar postagens por usuário");
+                    System.out.println("12. Média de curtidas por postagem");
+                    System.out.println("13. Total de comentários por usuário");
+                    System.out.println("14. Ranking de usuários");
+                    System.out.println("15. Sair");
                     System.out.print("Escolha uma opção: ");
                     opcao = scanner.nextInt();
                     scanner.nextLine(); // Limpa o buffer
@@ -62,24 +59,13 @@ public class MenuPrompt implements CommandLineRunner {
                             usuarios.forEach(System.out::println);
                         }
                         case 3 -> {
-                            System.out.print("ID do usuário para atualizar: ");
-                            Long id = scanner.nextLong();
-                            scanner.nextLine();
-                            System.out.print("Novo nome: ");
-                            String novoNome = scanner.nextLine();
-                            System.out.print("Novo email: ");
-                            String novoEmail = scanner.nextLine();
-                            usuarioService.atualizarUsuario(id, novoNome, novoEmail);
-                            System.out.println("Usuário atualizado!");
-                        }
-                        case 4 -> {
                             System.out.print("ID do usuário para excluir: ");
                             Long id = scanner.nextLong();
                             scanner.nextLine();
                             usuarioService.excluirUsuario(id);
                             System.out.println("Usuário excluído!");
                         }
-                        case 5 -> {
+                        case 4 -> {
                             System.out.print("ID do usuário: ");
                             Long usuarioId = scanner.nextLong();
                             scanner.nextLine();
@@ -100,7 +86,7 @@ public class MenuPrompt implements CommandLineRunner {
                                 System.out.println(userMsg);
                             }
                         }
-                        case 6 -> {
+                        case 5 -> {
                             System.out.print("ID da postagem para atualizar: ");
                             int idPostagem = scanner.nextInt();
                             scanner.nextLine();
@@ -109,21 +95,14 @@ public class MenuPrompt implements CommandLineRunner {
                             postagemService.atualizarPostagem(idPostagem, novoConteudo);
                             System.out.println("Postagem atualizada!");
                         }
-                        case 7 -> {
-                            System.out.print("ID da postagem para excluir: ");
-                            int idPostagem = scanner.nextInt();
-                            scanner.nextLine();
-                            postagemService.excluirPostagem(idPostagem);
-                            System.out.println("Postagem excluída!");
-                        }
-                        case 8 -> {
+                        case 6 -> {
                             System.out.print("ID do usuário: ");
                             Long usuarioId = scanner.nextLong();
                             scanner.nextLine();
                             List<?> postagens = (List<?>) postagemService.listarPostagensPorUsuario(usuarioId.intValue());
                             postagens.forEach(System.out::println);
                         }
-                        case 9 -> {
+                        case 7 -> {
                             System.out.print("ID da postagem: ");
                             int idPostagem = scanner.nextInt();
                             scanner.nextLine();
@@ -139,14 +118,14 @@ public class MenuPrompt implements CommandLineRunner {
                                 System.out.println(e.getMessage());
                             }
                         }
-                        case 10 -> {
+                        case 8 -> {
                             System.out.print("ID da postagem: ");
                             int idPostagem = scanner.nextInt();
                             scanner.nextLine();
                             var comentarios = postagemService.listarComentariosDaPostagem(idPostagem);
                             ((List<?>)comentarios).forEach(System.out::println);
                         }
-                        case 11 -> {
+                        case 9 -> {
                             System.out.print("ID da postagem: ");
                             int idPostagem = scanner.nextInt();
                             scanner.nextLine();
@@ -156,7 +135,7 @@ public class MenuPrompt implements CommandLineRunner {
                             postagemService.curtirPostagem(idPostagem, idUsuario);
                             System.out.println("Postagem curtida!");
                         }
-                        case 12 -> {
+                        case 10 -> {
                             System.out.print("ID da postagem: ");
                             int idPostagem = scanner.nextInt();
                             scanner.nextLine();
@@ -166,37 +145,30 @@ public class MenuPrompt implements CommandLineRunner {
                             postagemService.descurtirPostagem(idPostagem, idUsuario);
                             System.out.println("Curtida removida!");
                         }
-                        case 13 -> {
+                        case 11 -> {
                             System.out.print("ID do usuário: ");
                             int idUsuario = scanner.nextInt();
                             scanner.nextLine();
                             int total = postagemService.contarPostagensPorUsuario(idUsuario);
                             System.out.println("Total de postagens: " + total);
                         }
-                        case 14 -> {
+                        case 12 -> {
+                            double media = postagemService.mediaCurtidas().doubleValue();
+                            System.out.println("Média de curtidas por postagem: " + media);
+                        }
+                        case 13 -> {
                             System.out.print("ID do usuário: ");
                             int idUsuario = scanner.nextInt();
                             scanner.nextLine();
                             int total = postagemService.contarComentariosPorUsuario(idUsuario);
                             System.out.println("Total de comentários: " + total);
                         }
-                        case 15 -> {
-                            double media = postagemService.mediaCurtidas().doubleValue();
-                            System.out.println("Média de curtidas por postagem: " + media);
-                        }
-                        case 16 -> {
-                            System.out.print("ID do usuário: ");
-                            Long usuarioId = scanner.nextLong();
-                            scanner.nextLine();
-                            int total = usuarioService.totalCurtidasPorUsuario(usuarioId);
-                            System.out.println("Total de curtidas do usuário: " + total);
-                        }
-                        case 17 -> {
-                            System.out.println("Ranking de usuários por curtidas:");
+                        case 14 -> {
+                            System.out.println("Ranking de usuários:");
                             var ranking = usuarioService.listarRanking();
                             ranking.forEach(System.out::println);
                         }
-                        case 18 -> System.out.println("Saindo...");
+                        case 15 -> System.out.println("Saindo...");
                         default -> System.out.println("Opção inválida!");
                     }
                 } while (opcao != 18);
